@@ -210,5 +210,6 @@ class driver():
             self.lock.release()
 
 speechserver = driver()
+print("preparing to speak")
 speechserver.speak("hello world")
-time.sleep(3)
+print("message spoken")
