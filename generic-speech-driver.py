@@ -26,13 +26,13 @@ class driver():
         self.initialize()
     def initialize(self):
         environment = {'minVolume': 0,
-                    'volume': 100,
+                    'volume': '100',
                     'maxVolume': 200,
-                    'minPitch': 0,
-                    'pitch': 5,
+                    'minPitch': '0',
+                    'pitch': '50',
                     'maxPitch': 99,
                     'minRate': 80,
-                    'rate': 120,
+                    'rate': '280',
                     'maxRate': 450,
                     'language': '',
                     'module': 'espeak',
@@ -56,7 +56,6 @@ class driver():
         self.speechCommand = self.env['command']
         if self.speechCommand == '':
             self.speechCommand = 'espeak -a fenrirVolume -s fenrirRate -p fenrirPitch -v fenrirVoice -- "fenrirText"'           
-        
         self._isInitialized = True   
         if self._isInitialized:
             self.speechThread.start()   
@@ -79,7 +78,7 @@ class driver():
           'module': self.module,
           'language': self.language,
           'voice': self.voice,
-        }        
+        }    
         self.textQueue.put(utterance.copy())
 
     def cancel(self):
@@ -180,6 +179,7 @@ class driver():
                 utterance['rate'] = ''
 
             popenSpeechCommand = shlex.split(self.speechCommand)
+
             for idx, word in enumerate(popenSpeechCommand):
                 word = word.replace('fenrirVolume', str(utterance['volume'] ))
                 word = word.replace('genericSpeechVolume', str(utterance['volume'] ))
@@ -196,20 +196,23 @@ class driver():
                 word = word.replace('fenrirText', str(utterance['text']))
                 word = word.replace('genericSpeechText', str(utterance['text']))
                 popenSpeechCommand[idx] = word
-
             try:
                 self.lock.acquire(True)
                 self.proc = Popen(popenSpeechCommand, stdin=None, stdout=None, stderr=None, shell=False)
                 self.lock.release()	
                 self.proc.wait()
             except Exception as e:
-                pass
+                print(e)
 
             self.lock.acquire(True)
             self.proc = None
             self.lock.release()
 
+# create driver object
 speechserver = driver()
-print("preparing to speak")
-speechserver.speak("hello world")
-print("message spoken")
+# speak
+speechserver.speak("For my frind storm, because he rulz")
+# wait
+time.sleep(1.6)
+# stop worker
+speechserver.shutdown()
