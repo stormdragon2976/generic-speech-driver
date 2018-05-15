@@ -76,6 +76,7 @@ class driver(speechDriver):
                 try:
                     self.proc.kill()
                 except Exception as e:
+                    pass
             self.proc = None            
         self.lock.release()
     def setCallback(self, callback):
@@ -184,6 +185,7 @@ class driver(speechDriver):
                 self.lock.release()	
                 self.proc.wait()
             except Exception as e:
+                pass
 
             self.lock.acquire(True)
             self.proc = None
