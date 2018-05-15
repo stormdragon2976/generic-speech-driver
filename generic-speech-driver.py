@@ -37,10 +37,13 @@ class driver():
                    }
         self.env = environment  
         self.minVolume = self.env['minVolume']
+        self.volume = self.env['volume']
         self.maxVolume = self.env['maxVolume']
         self.minPitch = self.env['minPitch']
+        self.pitch = self.env['pitch']
         self.maxPitch = self.env['maxPitch']
         self.minRate = self.env['minRate']
+        self.rate = self.env['rate']
         self.maxRate = self.env['maxRate']
         
         self.speechCommand = self.env['command']
