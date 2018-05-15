@@ -7,6 +7,7 @@ from threading import Thread, Lock
 from queue import Queue, Empty
 import shlex
 from subprocess import Popen
+import time
 
 class speakQueue(Queue):
     def clear(self):
@@ -33,6 +34,9 @@ class driver():
                     'minRate': 80,
                     'rate': 120,
                     'maxRate': 450,
+                    'language': '',
+                    'module': 'espeak',
+                    'voice': 'en-us',
                     'command': 'espeak -a fenrirVolume -s fenrirRate -p fenrirPitch -v fenrirVoice -- "fenrirText"'
                    }
         self.env = environment  
@@ -45,6 +49,9 @@ class driver():
         self.minRate = self.env['minRate']
         self.rate = self.env['rate']
         self.maxRate = self.env['maxRate']
+        self.language = self.env['language']
+        self.voice = self.env['voice']
+        self.module = self.env['module']
         
         self.speechCommand = self.env['command']
         if self.speechCommand == '':
