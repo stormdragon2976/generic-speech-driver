@@ -25,10 +25,13 @@ class driver():
         self.initialize()
     def initialize(self):
         environment = {'minVolume': 0,
+                    'volume': 100,
                     'maxVolume': 200,
                     'minPitch': 0,
+                    'pitch': 5,
                     'maxPitch': 99,
                     'minRate': 80,
+                    'rate': 120,
                     'maxRate': 450,
                     'command': 'espeak -a fenrirVolume -s fenrirRate -p fenrirPitch -v fenrirVoice -- "fenrirText"'
                    }
