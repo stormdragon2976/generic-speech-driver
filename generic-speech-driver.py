@@ -16,28 +16,33 @@ class speakQueue(Queue):
         except Empty:
             pass
 
-class driver(speechDriver):
+class driver():
     def __init__(self):
-        speechDriver.__init__(self)
         self.proc = None
         self.speechThread = Thread(target=self.worker)
         self.lock = Lock()
         self.textQueue = speakQueue()
-    def initialize(self, environment):   
+        self.initialize()
+    def initialize(self):
+        environment = {'minVolume': 0,
+                    'maxVolume': 200,
+                    'minPitch': 0,
+                    'maxPitch': 99,
+                    'minRate': 80,
+                    'maxRate': 450,
+                    'command': 'espeak -a fenrirVolume -s fenrirRate -p fenrirPitch -v fenrirVoice -- "fenrirText"'
+                   }
         self.env = environment  
-        self.minVolume = self.env['runtime']['settingsManager'].getSettingAsInt('speech', 'fenrirMinVolume')
-        self.maxVolume = self.env['runtime']['settingsManager'].getSettingAsInt('speech', 'fenrirMaxVolume')        
-        self.minPitch = self.env['runtime']['settingsManager'].getSettingAsInt('speech', 'fenrirMinPitch')        
-        self.maxPitch = self.env['runtime']['settingsManager'].getSettingAsInt('speech', 'fenrirMaxPitch')
-        self.minRate = self.env['runtime']['settingsManager'].getSettingAsInt('speech', 'fenrirMinRate')
-        self.maxRate = self.env['runtime']['settingsManager'].getSettingAsInt('speech', 'fenrirMaxRate')
+        self.minVolume = self.env['minVolume']
+        self.maxVolume = self.env['maxVolume']
+        self.minPitch = self.env['minPitch']
+        self.maxPitch = self.env['maxPitch']
+        self.minRate = self.env['minRate']
+        self.maxRate = self.env['maxRate']
         
-        self.speechCommand = self.env['runtime']['settingsManager'].getSetting('speech', 'genericSpeechCommand')
+        self.speechCommand = self.env['command']
         if self.speechCommand == '':
-            self.speechCommand = 'espeak -a fenrirVolume -s fenrirRate -p fenrirPitch -v fenrirVoice -- "fenrirText"'
-        if False: #for debugging overwrite here
-            #self.speechCommand = 'spd-say --wait -r 100 -i 100  "fenrirText"'  
-            self.speechCommand = 'flite -t "fenrirText"'           
+            self.speechCommand = 'espeak -a fenrirVolume -s fenrirRate -p fenrirPitch -v fenrirVoice -- "fenrirText"'           
         
         self._isInitialized = True   
         if self._isInitialized:
@@ -191,5 +196,6 @@ class driver(speechDriver):
             self.proc = None
             self.lock.release()
 
-speakQueue("hello world")
+speechserver = driver()
+speechserver.speak("hello world")
 time.sleep(3)
