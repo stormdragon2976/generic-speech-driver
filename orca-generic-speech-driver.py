@@ -21,6 +21,36 @@ from orca.acss import ACSS
                                                                                 
 _settingsManager = settings_manager.getManager()
 
+class SpeechServer(speechserver.SpeechServer):
+    def __init__(self, serverId):
+        super(SpeechServer, self).__init__()
+
+    def getFactoryName():
+        return guilabels.orca-generic-speech-driver
+
+    def getSpeechServers():
+        # We have no speech servers, just generic speech settings
+        pass
+
+    def _getSpeechServer(cls, serverId):
+        return "orca-generic-speech-driver"
+
+    def getSpeechServer(info=None):
+        pass
+
+    def _send_command(self, command, *args, **kwargs):
+        if hasattr(speechd, 'SSIPCommunicationError'):
+            try:
+                return command(*args, **kwargs)
+            except speechd.SSIPCommunicationError:
+                msg = "generic speech driver is not working."
+                return command(*args, **kwargs)
+            except:
+                pass
+        else:
+            return command(*args, **kwargs)
+
+
 class speakQueue(Queue):
     def clear(self):
         try:
