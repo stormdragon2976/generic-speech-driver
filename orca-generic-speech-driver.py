@@ -8,6 +8,18 @@ from queue import Queue, Empty
 import shlex
 from subprocess import Popen
 import time
+from orca import chnames
+from orca import debug
+from orca import guilabels
+from orca import messages
+from orca import speechserver
+from orca import settings
+from orca import orca_state
+from orca import punctuation_settings
+from orca import settings_manager
+from orca.acss import ACSS
+                                                                                
+_settingsManager = settings_manager.getManager()
 
 class speakQueue(Queue):
     def clear(self):
