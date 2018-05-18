@@ -36,7 +36,6 @@ from orca import settings
 from orca import orca_state
 from orca import punctuation_settings
 from orca import settings_manager
-from orca.acss import ACSS
                                                                                 
 _settingsManager = settings_manager.getManager()
 
@@ -110,7 +109,7 @@ class SpeechServer(object):
         is responsible for calling the shutdown() method of each
         speech server returned.
         """
-        pass
+        return "Generic speech driver"
 
     @staticmethod
     def getSpeechServer(info):
@@ -187,7 +186,7 @@ class SpeechServer(object):
         - interrupt: if True, stops any speech in progress before
                      speaking the text
         """
-        pass
+        return self.genericDriver.speak()
 
     def isSpeaking(self):
         """"Returns True if the system is currently speaking."""
@@ -239,11 +238,11 @@ class SpeechServer(object):
 
     def stop(self):
         """Stops ongoing speech and flushes the queue."""
-        pass
+        self.generidDriver.stop()
 
     def shutdown(self):
         """Shuts down the speech engine."""
-        pass
+        self.genericDriver.shutdown()
 
     def reset(self, text=None, acss=None):
         """Resets the speech engine."""
